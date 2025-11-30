@@ -53,6 +53,7 @@ ggplot(rats, aes(x = treat, y = time)) +
   ) +
   theme_minimal()
 ```
+When we add interaction lines, we see that the pattern from #1 does not hold across all poison types.
 ## 3. Model time on treat, poison and their interaction in a linear regression. What do the coefficient estimates of interactions indicate? How does this correspond to your observation in #2?
 
 ## 4. Check whether linear model assumptions hold for the model in #3. Describe what these assumptions are and whether they are met.
