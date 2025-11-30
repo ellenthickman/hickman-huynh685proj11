@@ -1,0 +1,50 @@
+---
+title: "Project 11"
+author: "Ellen Hickman, Mi Huynh"
+date: "2025-11-29"
+output: pdf_document
+editor_options: 
+  chunk_output_type: console
+  markdown: 
+    wrap: 72
+---
+
+## Use rats data in faraway.
+```{r}
+library(faraway)
+library(ggplot2)
+library(dplyr)
+library(janitor)
+data(rats)
+head(rats)
+```
+## 1. (THIS IS THE SAME AS #1 of PROJECT 10. NO NEED TO REWORK. JUST USE THE OBSERVATIONS FOR #2 IN PROJECT 11.) Focus on time as the response and treat as the predictor. Plot time as a function of treat using a jittered scatter plot. Add a mean of time for each level of treat to the plot. What pattern do you see? Describe this in layman’s terms.
+```{r}
+means <- aggregate(time~treat, rats, mean)
+ggplot(rats, aes(x = treat, y = time)) +
+  geom_point(position = position_jitter(width = 0.1)) +
+  stat_summary(fun = mean, geom = "point", colour = "red") +
+  geom_text(
+    data = means,
+    aes(label = round(time, 2), y = time + 0.1),
+    color = "red",
+    show.legend = FALSE
+  ) +
+  labs(
+    title = "Survival Time by Treatment Type",
+    x = "Treatment Type",
+    y = "Survival Time (tens of hours)"
+  ) +
+  theme_minimal()
+```
+## 2. Examine time as the response and treat and poison as the predictors through a jittered scatter plot as done in #1 from Project 10 with an addition of lines that show the mean of time at the interaction of poison and treat. Does the pattern seen in #1 from Project 10 hold across all poison types?
+
+## 3. Model time on treat, poison and their interaction in a linear regression. What do the coefficient estimates of interactions indicate? How does this correspond to your observation in #2?
+
+## 4. Check whether linear model assumptions hold for the model in #3. Describe what these assumptions are and whether they are met.
+
+## 5. Address the problem identified in #4 through a transformation of the response variable. Describe the transformation used and discuss whether this is effective for addressing the assumption violations.
+
+## 6. Compare which pairs of treat produce different time under the model in #3 and under the model in #5. What do you observe?
+
+## 7. Now, focus on time as a result of treat. Use treat as a random factor and interpret the effect of treat on time.
