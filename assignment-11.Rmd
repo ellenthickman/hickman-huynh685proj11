@@ -61,14 +61,40 @@ ggplot(rats, aes(x = treat, y = time)) +
 
 ## 3. Model time on treat, poison and their interaction in a linear regression. What do the coefficient estimates of interactions indicate? How does this correspond to your observation in #2?
 ```{r}
-model <- lm(time ~ treat * poison, data = rats)
-summary(model)
+aov(time~treat+poison+treat*poison,rats)
+summary(lm(time~treat*poison,rats)) # * indicates interaction including main effects
 ```
+- The coefficient estimates of interactions indicate how much the effect of one predictor (treat) on the response variable (time) changes depending on the level of the other predictor (poison), compared to the baseline levels (treat A and poison I) in the main effects + interaction model.
+- Holding the main effects of treatment and poison constant, rats who underwent treatment B and poison III showed a significant decrease in survival time of 3.4 hours compared to the baseline group (treatment A and poison I). 
+- In observation #2, we did notice that treatment B poison III had a lower average survival time compared to the overall pattern of means, which is consistent with the negative interaction coefficient observed in the model, compared to the baseline group (treatment A and poison I).
 
 ## 4. Check whether linear model assumptions hold for the model in #3. Describe what these assumptions are and whether they are met.
+# zero mean assumption of residuals
+```{r}
+lm <- lm(time~treat*poison,rats)
+mean(lm$resid)
+plot(density(resid(lm)), main="Density Plot")
+hist(resid(lm))
+```
+- The zero mean assumption states that the average of the residuals (the differences between observed and predicted values) should be zero. In our model, the density and histogram plots show that the mean of the residuals is approximately 0 (very close to zero), indicating that this assumption is met.
+# homoscedasticity
+```{r,fig.width=4, fig.height=4}
+plot(fitted(lm),resid(lm)) # estimated y vs residuals
+abline(h=0,col="blue")
+```
+- The homoscedasticity assumption states that the variance of the residuals should be constant across all levels of the predicted values. In our model, the scatter plot of residuals versus fitted values shows a funnel shape, indicating that the spread of the residuals increases as the fitted values increase. This suggests that the homoscedasticity assumption may be violated.
+# normality of errors
+```{r}
+qqnorm(lm$resid);qqline(lm$resid)
+```
+- The normality assumption states that the residuals should be normally distributed. In our model, the QQ plot shows that the residuals deviate from the straight line, especially at the tails, indicating that the normality assumption may be violated.
 
 ## 5. Address the problem identified in #4 through a transformation of the response variable. Describe the transformation used and discuss whether this is effective for addressing the assumption violations.
 
+```{r}
+library(MASS)
+boxcox(lm)
+```
 ## 6. Compare which pairs of treat produce different time under the model in #3 and under the model in #5. What do you observe?
 
 ## 7. Now, focus on time as a result of treat. Use treat as a random factor and interpret the effect of treat on time.
