@@ -45,12 +45,7 @@ means2 <- aggregate(time~treat+poison, rats, mean)
 ggplot(rats, aes(x = treat, y = time)) +
   geom_point(position = position_jitter(width = 0.1)) +
   stat_summary(fun = mean, geom = "point", colour = "red") +
-  geom_text(
-    data = means2,
-    aes(label = round(time, 2), y = time + 0.1),
-    color = "red",
-    show.legend = FALSE
-  ) +
+  stat_summary(fun = mean, geom = "line", aes(group = poison, linetype = poison)) +
   labs(
     title = "Survival Time by Treatment Type and Poison Type",
     x = "Treatment Type",
