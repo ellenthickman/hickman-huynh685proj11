@@ -123,3 +123,12 @@ summary(lm(time~treat*poison,rats))
 - With the transformed response variable, the interaction effects between treatment B poison III and the baseline were not significant anymore. However, in the transformed model, treatment D poison III showed marginal significant effects (p < .1). 
 
 ## 7. Now, focus on time as a result of treat. Use treat as a random factor and interpret the effect of treat on time.
+```{r}
+library(lme4)
+rmod<-lmer(time~(1|treat), rats)
+summary(rmod)
+confint(rmod)
+```
+- If the variance = 0, then the treatment does not have a role in explaining the variability in time. 
+- If the variance =/= 0, then the treatment does have a role in explaining the variability in time. 
+- We reject the null hypothesis that the variance of treatment is equal to zero since the confidence interval of the treatment group does not include 0 (0.045 0.33). 
