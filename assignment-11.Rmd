@@ -15,6 +15,7 @@ library(faraway)
 library(ggplot2)
 library(dplyr)
 library(janitor)
+library(MASS)
 data(rats)
 head(rats)
 ```
@@ -114,9 +115,9 @@ ggplot(rats, aes(x = treat, y = inv_time)) +
 
 ```{r}
 rats$inv_time <- 1/rats$time
-summary(lm(inv_time~treat*poison,rats))
+summary(lm(inv_time~treat*poison, rats))
 
-summary(lm(time~treat*poison,rats)) 
+summary(lm(time~treat*poison, rats)) 
 ```
 - When we took the inverse of time, we observed that the variance across treatment type is more constant (compared to the original time variable). This observed improvement in homoscedasticity suggests that the transformation was effective in addressing the assumption violations, and possibly the normality of errors assumption.
 - Furthermore, in regards to the individual interaction effects, the transformed model yields significant effects for all treatment and poison levels compared to their respective baseline group (treatment A and poison I), whereas the original model only yielded significant effects for some treatment and poison levels. This suggests that the transformation may have improved the model's ability to detect significant differences between treatment and poison levels.
