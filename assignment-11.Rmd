@@ -61,6 +61,13 @@ ggplot(rats, aes(x = treat, y = time)) +
 - For poison type III, treatment B shows an lower average survival time for treatment B compared to the overall pattern of means. 
 
 ## 3. Model time on treat, poison and their interaction in a linear regression. What do the coefficient estimates of interactions indicate? How does this correspond to your observation in #2?
+```{r}
+aov(time~treat+poison+treat*poison,rats)
+summary(lm(time~treat*poison,rats)) # * indicates interaction including main effects
+```
+- The coefficient estimates of interactions indicate how much the effect of one predictor (treat) on the response variable (time) changes depending on the level of the other predictor (poison), compared to the baseline levels (treat A and poison I) in the main effects + interaction model.
+- Holding the main effects of treatment and poison constant, rats who underwent treatment B and poison III showed a significant decrease in survival time of 3.4 hours compared to the baseline group (treatment A and poison I). 
+- In observation #2, we did notice that treatment B poison III had a lower average survival time compared to the overall pattern of means, which is consistent with the negative interaction coefficient observed in the model, compared to the baseline group (treatment A and poison I).
 
 ## 4. Check whether linear model assumptions hold for the model in #3. Describe what these assumptions are and whether they are met.
 
