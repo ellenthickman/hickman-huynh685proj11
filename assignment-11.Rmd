@@ -37,8 +37,27 @@ ggplot(rats, aes(x = treat, y = time)) +
   ) +
   theme_minimal()
 ```
-## 2. Examine time as the response and treat and poison as the predictors through a jittered scatter plot as done in #1 from Project 10 with an addition of lines that show the mean of time at the interaction of poison and treat. Does the pattern seen in #1 from Project 10 hold across all poison types?
+-  The treatement groups B has the highest average survival time (~ 7 hours until death), however shows the most spread compared to the other treatments. Treatment A shows the lowest average survival time (~ 3 hours until death) also with the least amount of variance. The middling treatments C and D have similar average survival times (~ 5 hours until death) with treatment D with similar variances.
 
+## 2. Examine time as the response and treat and poison as the predictors through a jittered scatter plot as done in #1 from Project 10 with an addition of lines that show the mean of time at the interaction of poison and treat. Does the pattern seen in #1 from Project 10 hold across all poison types?
+```{r}
+means2 <- aggregate(time~treat+poison, rats, mean)
+ggplot(rats, aes(x = treat, y = time)) +
+  geom_point(position = position_jitter(width = 0.1)) +
+  stat_summary(fun = mean, geom = "point", colour = "red") +
+  geom_text(
+    data = means2,
+    aes(label = round(time, 2), y = time + 0.1),
+    color = "red",
+    show.legend = FALSE
+  ) +
+  labs(
+    title = "Survival Time by Treatment Type and Poison Type",
+    x = "Treatment Type",
+    y = "Survival Time (tens of hours)"
+  ) +
+  theme_minimal()
+```
 ## 3. Model time on treat, poison and their interaction in a linear regression. What do the coefficient estimates of interactions indicate? How does this correspond to your observation in #2?
 
 ## 4. Check whether linear model assumptions hold for the model in #3. Describe what these assumptions are and whether they are met.
