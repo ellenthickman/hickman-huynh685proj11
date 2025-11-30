@@ -44,13 +44,9 @@ ggplot(rats, aes(x = treat, y = time)) +
 means2 <- aggregate(time~treat+poison, rats, mean)
 ggplot(rats, aes(x = treat, y = time)) +
   geom_point(position = position_jitter(width = 0.1)) +
-  stat_summary(fun = mean, geom = "point", colour = "red") +
-  geom_text(
-    data = means2,
-    aes(label = round(time, 2), y = time + 0.1),
-    color = "red",
-    show.legend = FALSE
-  ) +
+  stat_summary(fun = mean, geom = "point", color="red",size=2)+
+  stat_summary(fun = mean, geom = "line", 
+             aes(group = poison, linetype = poison)) +
   labs(
     title = "Survival Time by Treatment Type and Poison Type",
     x = "Treatment Type",
@@ -58,6 +54,12 @@ ggplot(rats, aes(x = treat, y = time)) +
   ) +
   theme_minimal()
 ```
+-  The pattern seen in #1 from Project 10 does not hold across all poison types.
+-  For poison type I, the change from Treatment Type C and D on survival times does not reflect the overall change from C to D seen in #1 from Project 10 (it's smaller/more marginal). 
+-  For poison type II, treatment D has a much higher average survival time compared to the other treatments, which is not observed in poison types I and III.
+- Additionally, the effects on survival time for poison type II and treatment B is higher than the overall pattern of means.
+- For poison type III, treatment B shows an lower average survival time for treatment B compared to the overall pattern of means. 
+
 ## 3. Model time on treat, poison and their interaction in a linear regression. What do the coefficient estimates of interactions indicate? How does this correspond to your observation in #2?
 
 ## 4. Check whether linear model assumptions hold for the model in #3. Describe what these assumptions are and whether they are met.
