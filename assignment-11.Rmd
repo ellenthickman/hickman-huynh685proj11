@@ -57,7 +57,13 @@ ggplot(rats, aes(x = treat, y = time)) +
 -  For poison type I, the change from Treatment Type C and D on survival times does not reflect the overall change from C to D seen in #1 from Project 10 (it's smaller/more marginal). 
 -  For poison type II, treatment D has a much higher average survival time compared to the other treatments, which is not observed in poison types I and III.
 - Additionally, the effects on survival time for poison type II and treatment B is higher than the overall pattern of means.
-- For poison type III, treatment B shows an lower average survival time for treatment B compared to the overall pattern of means. ## 3. Model time on treat, poison and their interaction in a linear regression. What do the coefficient estimates of interactions indicate? How does this correspond to your observation in #2?
+- For poison type III, treatment B shows an lower average survival time for treatment B compared to the overall pattern of means. 
+
+## 3. Model time on treat, poison and their interaction in a linear regression. What do the coefficient estimates of interactions indicate? How does this correspond to your observation in #2?
+```{r}
+model <- lm(time ~ treat * poison, data = rats)
+summary(model)
+```
 
 ## 4. Check whether linear model assumptions hold for the model in #3. Describe what these assumptions are and whether they are met.
 
