@@ -99,6 +99,13 @@ boxcox(lm)
 - The Box-Cox transformation suggests a lambda value of approximately -1, indicating an inverse transformation of the response variable (time). Taking the inverse of time (1/time) can help stabilize the variance and make the distribution of residuals more normal.
 ## 6. Compare which pairs of treat produce different time under the model in #3 and under the model in #5. What do you observe?
 ```{r}
+rats$inv_time <- 1 / rats$time
+summary(lm(rats$inv_time~rats$treat*rats$poison))
+
+summary(lm(time~treat*poison, rats)) 
+```
+
+```{r}
 means3 <- aggregate(inv_time~treat+poison, rats, mean)
 ggplot(rats, aes(x = treat, y = inv_time)) +
   geom_point(position = position_jitter(width = 0.1)) +
@@ -111,13 +118,6 @@ ggplot(rats, aes(x = treat, y = inv_time)) +
     y = "Survival Time (inverse tens of hours)"
   ) +
   theme_minimal()
-```
-
-```{r}
-rats$inv_time <- 1/rats$time
-summary(lm(inv_time~treat*poison, rats))
-
-summary(lm(time~treat*poison, rats)) 
 ```
 - When we took the inverse of time, we observed that the variance across treatment type is more constant (compared to the original time variable). This observed improvement in homoscedasticity suggests that the transformation was effective in addressing the assumption violations, and possibly the normality of errors assumption.
 - Furthermore, in regards to the individual interaction effects, the transformed model yields significant effects for all treatment and poison levels compared to their respective baseline group (treatment A and poison I), whereas the original model only yielded significant effects for some treatment and poison levels. This suggests that the transformation may have improved the model's ability to detect significant differences between treatment and poison levels.
